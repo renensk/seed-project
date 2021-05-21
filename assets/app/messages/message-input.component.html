@@ -1,0 +1,14 @@
+<div class="col-mds-8 col-md-offset-2">
+    <form (ngSubmit)="onSubmit(refLocalForm)" #refLocalForm="ngForm" ngNativeValidate>
+    <div class="form-group">
+        <label for="myContentngForm">Conteudo</label>
+        <input type="text"
+         id="myContentngForm" 
+         class="form-control"
+         [ngModel]="messageLoad?.content"
+         name="myContentngForm" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Salve minha mensagem</button>
+    <button type="button" class="btn btn-danger" (click)="onClear(refLocalForm)">Cancelar</button>
+    </form>
+</div>

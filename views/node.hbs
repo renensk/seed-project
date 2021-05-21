@@ -1,0 +1,21 @@
+<h1>A Node View</h1>
+{{message}}<!--
+<form action="/message" method="POST">
+    <input type="text" name="messageBody">-->
+<form action="/node-mongodb-mongoose-user" method="POST">
+  <input type="text" name="emailBody" />
+  <button type="submit">Enviar</button>
+</form>
+
+<!-- Busca os Dados de Usuário -->
+<h1>Dados de User Recuperados</h1>
+{{firstNameV}}
+<br />
+{{lastNameV}}
+<br />
+{{passwordV}}
+<br />
+{{emailV}}
+<br />
+{{messagesV}}
+<br />
