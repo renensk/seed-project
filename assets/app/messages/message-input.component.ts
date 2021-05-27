@@ -4,55 +4,51 @@ import { Message } from "./message.model";
 import { NgForm } from "@angular/forms";
 
 @Component({
-    selector: 'app-message-input',
-    templateUrl: './message-input.component.html'
+  selector: "app-message-input",
+  templateUrl: "./message-input.component.html",
 
-    /* Passou a ser incorporado no Component app.component.ts
+  /* Passou a ser incorporado no Component app.component.ts
         que é o PAI desse Component providers: [MessageService] */
 })
-export class MessageInputComponent implements OnInit{
-    constructor (private messageService: MessageService){
+export class MessageInputComponent implements OnInit {
+  constructor(private messageService: MessageService) {}
 
-    }
+  onSave(textoConsole: string) {
+    const messageAux = new Message(textoConsole, "Vini");
+    this.messageService.addMessage(messageAux);
+    console.log(textoConsole);
+  }
 
-    onSave(textoconsole: string){
-        const.messageAux = new Message(textoConsole, 'Vini');
-        this.messageService.addMessage(messageAux);
-        console.log(textoConsole);
-    }
+  messageLoad: Message;
 
-    messageLoad: Message;
+  onClear(form: NgForm) {
+    this.messageLoad = null;
+    form.resetForm();
+  }
+  ngOnInit() {
+    this.messageService.messageIsEdit.subscribe(
+      (message: Message) => (this.messageLoad = message)
+    );
+  }
 
-    onClear(form: NgForm){
-        this.messageLoad = null;
-        form.resetForm();
+  onSubmit(form: NgForm) {
+    if (this.messageLoad) {
+      //EDITAR
+      this.messageLoad.content = form.value.myContentngForm;
+      this.messageService.updateMessage(this.messageLoad).subscribe(
+        (dadosSucesso) => console.log(dadosSucesso),
+        (dadosErro) => console.log(dadosErro)
+      );
+      this.messageLoad = null;
+    } else {
+      //CRIAR
+      const messageAux = new Message(form.value.myContentngForm, "Renan");
+      this.messageService.addMessage(messageAux).subscribe(
+        (dadosSucesso) => console.log(dadosSucesso),
+        (dadosErro) => console.log(dadosErro)
+      );
     }
-    ngOnInit(){
-        this.messageService.messageIsEdit.subscribe(
-            (message: Message) => this.messageLoad = message
-        );
-    }
-
-    onSubmit(form: NgForm){
-        if(this.messageLoad){
-            //EDITAR
-            this.messageLoad.content = form.value.myContentngForm;
-            this.messageService.updateMessage(this.messageLoad)
-            .subscribe(
-                dadosSucesso => console.log(dadosSucesso),
-                dadosErro => console.log(dadosErro)
-            );
-            this.messageLoad = null;
-        }else{
-            //CRIAR
-            const messageAux = new Message(form.value.myContentngForm, 'Renan');
-            this.messageService.addMessage(messageAux)
-            .subscribe(
-                dadosSucesso => console.log(dadosSucesso),
-                dadosErro => console.log(dadosErro)
-            );
-        }
-        console.log(form);
-        form.resetForm;
-    }
+    console.log(form);
+    form.resetForm;
+  }
 }
